@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button v-on:click="changeVisibility">Show / Hidden</button>
+        <tv-show-list></tv-show-list>
+           <!--<ul v-if="visualize">             
+            <li v-for="(show, index) in tvshows" v-bind:key="index">
+                <strong>{{ show.name }}</strong> ({{ show.seasons}} Temporadas)
+            </li>
+        </ul>-->
+      
+        <div v-else>
+            There is no Data
+        </div>
+    </div>
+   
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+
+        Vue.component('tv-show-list', {
+            data: function (){
+                return{
+                    tvshows:[
+                    {name: 'Game of Thornes', seasons: 7},
+                    {name: 'Breaking Bad', seasons: 5},
+                    {name: 'LOST', seasons: 6},
+                    {name: 'Battlestar Galactica', seasons: 4}
+                    ]
+                }
+            },
+            template: `
+                <ul>
+                    <tv-show 
+                        v-for="(show, index) in tvshows" 
+                        v-bind:key="index"
+                        v-bind:name="show.name"
+                        v-bind:seasons="show.seasons">
+                    </tv-show>
+                </ul>            
+            `
+        })
+
+        Vue.component('tv-show',{
+            props: {
+                name: String,
+                seasons: Number,
+            },
+            template: `
+                <li>
+                    <strong>{{ name }}</strong> ({{ seasons }} Temporadas)                
+                </li> 
+            `
+        })
+
+        const app = new Vue({
+            el:'#app',
+            data: {
+               visualize: false               
+            },
+            methods: {
+                changeVisibility: function(){ 
+                    this.visualize = !this.visualize
+                }
+            }
+        })
+    </script>
+</body>
+</html>
